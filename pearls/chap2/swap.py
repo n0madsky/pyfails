@@ -4,7 +4,6 @@ import fractions
 import cProfile
 import time
 
-
 def nextIndex(start, step, limit):
     return (start + step) % limit
 
@@ -49,7 +48,7 @@ def reverse_swap(xs, start):
     reverse(xs, 0, length - 1)
 
 
-derp = array.array("i", range(10000))
+derp = list(range(10000))
 def profile_reverse():
     for i in range(10000):
         reverse_swap(derp, 700)
@@ -63,16 +62,11 @@ def profile_juggle_uninlined():
         juggle_swap_uninlined(derp, 700)
 
 
-def profile():
-    a = cProfile.run("profile_reverse()")
-    b = cProfile.run("profile_juggle()")
-    c = cProfile.run("profile_juggle_uninlined()")
-
 def manual_timer():
     profiling_sets = [
-        (profile_reverse, "Reverse Function"),
+        #(profile_reverse, "Reverse Function"),
         (profile_juggle, "Juggle Function - Inlined Version"),
-        (profile_juggle_uninlined, "Juggle Function - Uninlined Version")
+        (profile_juggle_uninlined, "Juggle Function")
             ]
     for fn, word in profiling_sets:
         t1 = time.clock()

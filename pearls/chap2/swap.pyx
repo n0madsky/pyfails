@@ -1,7 +1,7 @@
 #!python
 #cython: language_level=3, boundscheck=False, wraparound=False, initializedcheck=False, nonecheck=False, overflowcheck=False, cdivision=True
 import time
-import math
+import fractions
 
 cdef int gcd(int a, int b):
     cdef int shift = 0, t
@@ -35,7 +35,7 @@ def nextIndex(start, step, limit):
 
 def juggle_swap_uninlined(xs, start):
     length = len(xs)
-    gcdresult = math.gcd(length, start)
+    gcdresult = fractions.gcd(length, start)
     for i in range(gcdresult):
         t = xs[i]
         prev = i
@@ -67,7 +67,7 @@ cdef void juggle_swap_uninlined_c(int xs[], int start, int length):
 
 def juggle_swap(xs, start):
     length = len(xs)
-    gcdresult = math.gcd(length, start)
+    gcdresult = fractions.gcd(length, start)
     for i in range(gcdresult):
         t = xs[i]
         prev = i
@@ -86,11 +86,12 @@ cdef void juggle_swap_c(int cc[], int start, int length):
     for i in range(gcdresult):
         t = cc[i]
         prev = i
-        next = i + start
-        while next != i:
+        while True:
+            next = (prev + start) % length
+            if next == i:
+                break
             cc[prev] = cc[next]
             prev = next
-            next = (next + start) % length
         cc[prev] = t
 
 def reverse(xs, a, b):
@@ -156,32 +157,32 @@ def profile_juggle_uninlined_c():
 
 print("Welcome to the Cython Optimized Shuffles")
 
-t1 = time.perf_counter()
+t1 = time.clock()
 profile_reverse()
-t2 = time.perf_counter()
+t2 = time.clock()
 print("reverse swap: " + str(t2 - t1) + " seconds.")
 
-t1 = time.perf_counter()
+t1 = time.clock()
 profile_reverse_c()
-t2 = time.perf_counter()
+t2 = time.clock()
 print("reverse swap(Cython Optimized): " + str(t2 - t1) + " seconds.")
 
-t1 = time.perf_counter()
+t1 = time.clock()
 profile_juggle()
-t2 = time.perf_counter()
+t2 = time.clock()
 print("juggle swap(inlined): " + str(t2 - t1) + " seconds.")
 
-t1 = time.perf_counter()
+t1 = time.clock()
 profile_juggle_c()
-t2 = time.perf_counter()
+t2 = time.clock()
 print("juggle swap(inlined, Cython Optimized): " + str(t2 - t1) + " seconds.")
 
-t1 = time.perf_counter()
+t1 = time.clock()
 profile_juggle_uninlined()
-t2 = time.perf_counter()
+t2 = time.clock()
 print("juggle swap(uninlined): " + str(t2 - t1) + " seconds.")
 
-t1 = time.perf_counter()
+t1 = time.clock()
 profile_juggle_uninlined_c()
-t2 = time.perf_counter()
+t2 = time.clock()
 print("juggle swap(uninlined, Cython Optimized): " + str(t2 - t1) + " seconds.")
