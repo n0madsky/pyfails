@@ -2,7 +2,7 @@
 
 public class Swap {
 
-    void reverse_segment(int[] list, int start, int finish) {
+    static void reverse_segment(int[] list, int start, int finish) {
         while(start < finish) {
             int t = list[start];
             list[start] = list[finish];
@@ -12,7 +12,7 @@ public class Swap {
         }
     }
 
-    void reverse_swap(int[] list, int len, int pivot) {
+    static void reverse_swap(int[] list, int len, int pivot) {
         reverse_segment(list, 0, pivot - 1);
         reverse_segment(list, pivot, len - 1);
         reverse_segment(list, 0, len - 1);
@@ -36,6 +36,7 @@ public class Swap {
             reverse_swap(a, len, pivot);
         }
         long end = System.nanoTime();
-        System.out.printf("Reverse Swap: %f seconds", (end - start)/1000000000.0);
+	System.out.println(a[0]);
+        System.out.printf("Reverse Swap: %f seconds\n", (end - start)/1000000000.0);
     }
 }
