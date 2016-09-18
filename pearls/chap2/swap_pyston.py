@@ -1,7 +1,6 @@
 import array
 import math
 import fractions
-import cProfile
 import time
 
 
@@ -61,12 +60,6 @@ def profile_juggle():
 def profile_juggle_uninlined():
     for i in range(10000):
         juggle_swap_uninlined(derp, 700)
-
-
-def profile():
-    a = cProfile.run("profile_reverse()")
-    b = cProfile.run("profile_juggle()")
-    c = cProfile.run("profile_juggle_uninlined()")
 
 def manual_timer():
     profiling_sets = [

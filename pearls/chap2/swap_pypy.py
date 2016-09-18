@@ -2,7 +2,6 @@ import array
 import math
 import fractions
 import cProfile
-import time
 
 
 def nextIndex(start, step, limit):
@@ -63,22 +62,7 @@ def profile_juggle_uninlined():
         juggle_swap_uninlined(derp, 700)
 
 
-def profile():
-    a = cProfile.run("profile_reverse()")
-    b = cProfile.run("profile_juggle()")
-    c = cProfile.run("profile_juggle_uninlined()")
-
-def manual_timer():
-    profiling_sets = [
-        (profile_reverse, "Reverse Function"),
-        (profile_juggle, "Juggle Function - Inlined Version"),
-        (profile_juggle_uninlined, "Juggle Function - Uninlined Version")
-            ]
-    for fn, word in profiling_sets:
-        t1 = time.clock()
-        fn()
-        t2 = time.clock()
-        print "{}: {} seconds".format(word, t2-t1)
-
-manual_timer()
+a = cProfile.run("profile_reverse()")
+b = cProfile.run("profile_juggle()")
+c = cProfile.run("profile_juggle_uninlined()")
 
